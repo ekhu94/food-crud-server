@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const Food = require("./models/Food");
 
@@ -13,11 +14,15 @@ mongoose.connect(
 );
 
 app.use(express.json());
+app.use(cors());
 
-app.get("/", (req, res) => {
-  const food = new Food({ name: "Steak", daysSinceEaten: 0 });
+app.post("/foods", async (req, res) => {
+  const food = new Food({
+    name: req.body.name,
+    daysSinceEaten: req.body.daysSinceEaten,
+  });
   try {
-    food.save();
+    await food.save();
   } catch (err) {
     console.log(err);
   }
