@@ -48,6 +48,26 @@ app.post("/foods", async (req, res) => {
   }
 });
 
+app.patch("/foods/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const food = await Food.findByIdAndUpdate(id, { name: req.body.name });
+    res.json(food);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.delete("/foods/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Food.findByIdAndDelete(id);
+    res.send("Food successfully deleted.");
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 app.listen(5000, () => {
   console.log("Server listening on Port 5000");
 });
