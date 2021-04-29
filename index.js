@@ -16,6 +16,25 @@ mongoose.connect(
 app.use(express.json());
 app.use(cors());
 
+app.get("/foods", async (req, res) => {
+  try {
+    const foods = await Food.find({});
+    res.json(foods);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+app.get("/foods/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const food = await Food.findById(id);
+    res.json(food);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 app.post("/foods", async (req, res) => {
   const food = new Food({
     name: req.body.name,
@@ -23,6 +42,7 @@ app.post("/foods", async (req, res) => {
   });
   try {
     await food.save();
+    res.json(food);
   } catch (err) {
     console.log(err);
   }
