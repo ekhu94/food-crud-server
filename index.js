@@ -14,6 +14,15 @@ mongoose.connect(
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  const food = new Food({ name: "Steak", daysSinceEaten: 0 });
+  try {
+    food.save();
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 app.listen(5000, () => {
   console.log("Server listening on Port 5000");
 });
